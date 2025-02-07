@@ -1,4 +1,4 @@
-package ru.elkael.weatherapp.ui.theme
+package ru.elkael.weatherapp.presentations.ui.theme
 
 import android.app.Activity
 import android.os.Build
