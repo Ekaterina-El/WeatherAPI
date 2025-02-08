@@ -68,6 +68,7 @@ dependencies {
 
     implementation(libs.glide.compose)
 
+    implementation(libs.okhttp.intercaptor)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson.convertor)
 
