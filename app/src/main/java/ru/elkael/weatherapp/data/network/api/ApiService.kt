@@ -9,17 +9,15 @@ import ru.elkael.weatherapp.data.network.dto.WeatherForecastDto
 
 interface ApiService {
 
-    @GET("current.json?key=")
-    suspend fun loadWeatherCity(
-        @Query("q") query: String
-    ): WeatherCurrentDto
+    @GET("current.json")
+    suspend fun loadWeatherCity(@Query("q") query: String): WeatherCurrentDto
 
-    @GET("forecast.json?key=")
+    @GET("forecast.json")
     suspend fun loadForecastForCity(
         @Query("q") query: String,
         @Query("days") days: Int = 4
     ): WeatherForecastDto
 
-    @GET("search.json?key=")
+    @GET("search.json")
     suspend fun searchCity(@Query("q") query: String): List<SearchCityDto>
 }
