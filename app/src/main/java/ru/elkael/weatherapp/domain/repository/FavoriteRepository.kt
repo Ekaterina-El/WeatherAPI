@@ -6,7 +6,7 @@ import ru.elkael.weatherapp.domain.entities.Forecast
 import ru.elkael.weatherapp.domain.entities.Weather
 
 interface FavoriteRepository {
-    val favoriteCities: Flow<City>
+    val favoriteCities: Flow<List<City>>
     fun observeIsFavorite(cityId: Int): Flow<Boolean>
     suspend fun addToFavorite(city: City)
     suspend fun removeFromFavorite(cityId: Int)

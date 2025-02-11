@@ -5,12 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.elkael.weatherapp.data.local.dao.FavoriteCitiesDao
+import ru.elkael.weatherapp.data.local.model.FavoriteCityDBModel
 
 @Database(
     version = 1,
-    entities = [
-        FavoriteCitiesDao::class
-    ]
+    entities = [ FavoriteCityDBModel::class ]
 )
 abstract class FavoriteDatabase: RoomDatabase() {
     abstract fun favoriteCitiesDao(): FavoriteCitiesDao
@@ -19,7 +18,6 @@ abstract class FavoriteDatabase: RoomDatabase() {
         private const val DB_NAME = "app_weather_database"
         private val LOCK = Any()
 
-        @Volatile
         private lateinit var INSTANCE: FavoriteDatabase
 
         fun getInstance(context: Context): FavoriteDatabase {
