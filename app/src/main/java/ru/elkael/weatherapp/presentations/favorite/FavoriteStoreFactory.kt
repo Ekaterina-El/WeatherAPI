@@ -12,7 +12,6 @@ import ru.elkael.weatherapp.domain.useCase.GetWeatherUseCase
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Intent
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Label
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.State
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStoreFactory.ReducerImpl.reduce
 import javax.inject.Inject
 
 internal class FavoriteStoreFactory @Inject constructor(
