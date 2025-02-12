@@ -4,5 +4,5 @@ import ru.elkael.weatherapp.domain.repository.WeatherRepository
 import javax.inject.Inject
 
 class GetWeatherUseCase @Inject constructor(private val repository: WeatherRepository) {
-    suspend fun invoke(cityId: Int) = repository.getWeather(cityId)
+    suspend operator fun invoke(cityId: Int) = repository.getWeather(cityId)
 }
