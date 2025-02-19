@@ -16,16 +16,15 @@ import ru.elkael.weatherapp.presentations.details.DetailsStore.Intent
 import ru.elkael.weatherapp.presentations.details.DetailsStore.Label
 import ru.elkael.weatherapp.presentations.details.DetailsStore.State
 import ru.elkael.weatherapp.presentations.details.DetailsStore.State.ForecastState
+import javax.inject.Inject
 
-internal class DetailsStoreFactory(
+internal class DetailsStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
     private val getForecastUseCase: GetForecastUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val removeFromFavoriteUseCase: RemoveFromFavoriteUseCase,
     private val observeIsFavoriteUseCase: ObserveIsFavoriteUseCase
 ) {
-    private lateinit var city: City
-
     fun create(city: City): DetailsStore =
         object : DetailsStore, Store<Intent, State, Label> by storeFactory.create(
             name = "DetailsStore",
@@ -34,15 +33,10 @@ internal class DetailsStoreFactory(
                 isFavorite = false,
                 forecastState = ForecastState.Initial
             ),
-            bootstrapper = BootstrapperImpl(),
+            bootstrapper = BootstrapperImpl(city),
             executorFactory = ::ExecutorImpl,
             reducer = ReducerImpl
-        ) {
-            init {
-                // TODO: убедится насколько это правильно
-                this@DetailsStoreFactory.city = city
-            }
-        }
+        ) {}
 
     private sealed interface Action {
         data class IsFavoriteChanged(val value: Boolean) : Action
@@ -60,7 +54,7 @@ internal class DetailsStoreFactory(
         data class ForecastLoaded(val forecast: Forecast): Msg
     }
 
-    private inner class BootstrapperImpl : CoroutineBootstrapper<Action>() {
+    private inner class BootstrapperImpl(private val city: City) : CoroutineBootstrapper<Action>() {
         override fun invoke() {
             scope.launch {
                 observeIsFavoriteUseCase(cityId = city.id).collect {
@@ -85,7 +79,9 @@ internal class DetailsStoreFactory(
                 Intent.ClickBack -> publish(Label.ClickBack)
                 Intent.ClickFavorite -> {
                     scope.launch {
-                        if (getState().isFavorite) removeFromFavoriteUseCase(cityId = city.id)
+                        val state = getState()
+                        val city = state.city
+                        if (state.isFavorite) removeFromFavoriteUseCase(cityId = city.id)
                         else addToFavoriteUseCase(city = city)
                     }
                 }
