@@ -8,15 +8,17 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.elkael.weatherapp.domain.entities.City
+import ru.elkael.weatherapp.domain.useCase.AddToFavoriteUseCase
 import ru.elkael.weatherapp.domain.useCase.SearchCityUseCase
 import ru.elkael.weatherapp.presentations.search.SearchStore.Intent
 import ru.elkael.weatherapp.presentations.search.SearchStore.Label
 import ru.elkael.weatherapp.presentations.search.SearchStore.State
 import javax.inject.Inject
 
-internal class SearchStoreFactory @Inject constructor(
+class SearchStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
-    private val searchCityUseCase: SearchCityUseCase
+    private val searchCityUseCase: SearchCityUseCase,
+    private val addToFavoriteUseCase: AddToFavoriteUseCase,
 ) {
 
     private var searchCityJob: Job? = null
@@ -53,8 +55,13 @@ internal class SearchStoreFactory @Inject constructor(
                 Intent.ClickBack -> publish(Label.GoBack)
 
                 is Intent.ClickOnCity -> when (getState().reason) {
-                    OpenReason.SHOW_CITY_WEATHER -> publish(Label.ShowCityWeather)
-                    OpenReason.ADD_FAVORITE -> publish(Label.AddFavorite)
+                    OpenReason.SHOW_CITY_WEATHER -> publish(Label.ShowCityWeather(intent.city))
+                    OpenReason.ADD_FAVORITE -> {
+                        scope.launch {
+                            addToFavoriteUseCase(intent.city)
+                            publish(Label.CityAddedToFavorites)
+                        }
+                    }
                 }
 
                 is Intent.OnChangeSearchText -> dispatch(Msg.ChangeSearchText(intent.value))

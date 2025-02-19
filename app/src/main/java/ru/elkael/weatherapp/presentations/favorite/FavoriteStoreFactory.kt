@@ -14,7 +14,7 @@ import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Label
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.State
 import javax.inject.Inject
 
-internal class FavoriteStoreFactory @Inject constructor(
+class FavoriteStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
     private val getFavoriteCitiesUseCase: GetFavoriteCitiesUseCase,
     private val getGetWeatherUseCase: GetWeatherUseCase

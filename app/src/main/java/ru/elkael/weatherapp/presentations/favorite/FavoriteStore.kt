@@ -6,7 +6,7 @@ import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Intent
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Label
 import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.State
 
-internal interface FavoriteStore : Store<Intent, State, Label> {
+interface FavoriteStore : Store<Intent, State, Label> {
 
     sealed interface Intent {
         data object ClickSearch: Intent

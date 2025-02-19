@@ -7,7 +7,7 @@ import ru.elkael.weatherapp.presentations.details.DetailsStore.Intent
 import ru.elkael.weatherapp.presentations.details.DetailsStore.Label
 import ru.elkael.weatherapp.presentations.details.DetailsStore.State
 
-internal interface DetailsStore : Store<Intent, State, Label> {
+interface DetailsStore : Store<Intent, State, Label> {
     data class State(
         val city: City,
         val isFavorite: Boolean,

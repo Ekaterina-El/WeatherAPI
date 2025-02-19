@@ -18,7 +18,7 @@ import ru.elkael.weatherapp.presentations.details.DetailsStore.State
 import ru.elkael.weatherapp.presentations.details.DetailsStore.State.ForecastState
 import javax.inject.Inject
 
-internal class DetailsStoreFactory @Inject constructor(
+class DetailsStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
     private val getForecastUseCase: GetForecastUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,

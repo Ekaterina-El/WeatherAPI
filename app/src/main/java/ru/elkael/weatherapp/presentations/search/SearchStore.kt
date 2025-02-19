@@ -6,7 +6,7 @@ import ru.elkael.weatherapp.presentations.search.SearchStore.Intent
 import ru.elkael.weatherapp.presentations.search.SearchStore.Label
 import ru.elkael.weatherapp.presentations.search.SearchStore.State
 
-internal interface SearchStore : Store<Intent, State, Label> {
+interface SearchStore : Store<Intent, State, Label> {
 
     sealed interface Intent {
         data class OnChangeSearchText(val value: String): Intent
@@ -32,8 +32,8 @@ internal interface SearchStore : Store<Intent, State, Label> {
     }
 
     sealed interface Label {
-        data object AddFavorite: Label
-        data object ShowCityWeather: Label
+        data object CityAddedToFavorites: Label
+        data class ShowCityWeather(val city: City): Label
         data object GoBack: Label
     }
 }
