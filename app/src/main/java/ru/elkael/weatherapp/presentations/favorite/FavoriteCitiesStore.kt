@@ -2,11 +2,11 @@ package ru.elkael.weatherapp.presentations.favorite
 
 import com.arkivanov.mvikotlin.core.store.Store
 import ru.elkael.weatherapp.domain.entities.City
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Intent
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Label
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.State
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.Intent
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.Label
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.State
 
-interface FavoriteStore : Store<Intent, State, Label> {
+interface FavoriteCitiesStore : Store<Intent, State, Label> {
 
     sealed interface Intent {
         data object ClickSearch: Intent

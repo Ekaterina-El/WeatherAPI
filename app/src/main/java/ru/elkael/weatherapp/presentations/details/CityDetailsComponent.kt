@@ -2,8 +2,8 @@ package ru.elkael.weatherapp.presentations.details
 
 import kotlinx.coroutines.flow.Flow
 
-interface DetailComponent {
-    val state: Flow<DetailsStore.State>
+interface CityDetailsComponent {
+    val state: Flow<CityDetailsStore.State>
 
     fun onClickBack()
     fun onClickIsFavorite()

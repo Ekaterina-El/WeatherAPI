@@ -12,21 +12,21 @@ import ru.elkael.weatherapp.domain.useCase.AddToFavoriteUseCase
 import ru.elkael.weatherapp.domain.useCase.GetForecastUseCase
 import ru.elkael.weatherapp.domain.useCase.ObserveIsFavoriteUseCase
 import ru.elkael.weatherapp.domain.useCase.RemoveFromFavoriteUseCase
-import ru.elkael.weatherapp.presentations.details.DetailsStore.Intent
-import ru.elkael.weatherapp.presentations.details.DetailsStore.Label
-import ru.elkael.weatherapp.presentations.details.DetailsStore.State
-import ru.elkael.weatherapp.presentations.details.DetailsStore.State.ForecastState
+import ru.elkael.weatherapp.presentations.details.CityDetailsStore.Intent
+import ru.elkael.weatherapp.presentations.details.CityDetailsStore.Label
+import ru.elkael.weatherapp.presentations.details.CityDetailsStore.State
+import ru.elkael.weatherapp.presentations.details.CityDetailsStore.State.ForecastState
 import javax.inject.Inject
 
-class DetailsStoreFactory @Inject constructor(
+class CityDetailsStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
     private val getForecastUseCase: GetForecastUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val removeFromFavoriteUseCase: RemoveFromFavoriteUseCase,
     private val observeIsFavoriteUseCase: ObserveIsFavoriteUseCase
 ) {
-    fun create(city: City): DetailsStore =
-        object : DetailsStore, Store<Intent, State, Label> by storeFactory.create(
+    fun create(city: City): CityDetailsStore =
+        object : CityDetailsStore, Store<Intent, State, Label> by storeFactory.create(
             name = "DetailsStore",
             initialState = State(
                 city = city,

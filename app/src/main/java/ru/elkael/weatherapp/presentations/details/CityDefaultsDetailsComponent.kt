@@ -13,32 +13,32 @@ import kotlinx.coroutines.launch
 import ru.elkael.weatherapp.domain.entities.City
 import ru.elkael.weatherapp.presentations.extensions.componentScope
 
-class DefaultDetailComponent @AssistedInject constructor(
-    storeFactory: DetailsStoreFactory,
+class CityDefaultsDetailsComponent @AssistedInject constructor(
+    storeFactory: CityDetailsStoreFactory,
     @Assisted("city") city: City,
     @Assisted("componentContext") componentContext: ComponentContext,
     @Assisted("onBackClicked") private val onBackClicked: () -> Unit,
-) : DetailComponent,
+) : CityDetailsComponent,
     ComponentContext by componentContext {
 
     private val store = instanceKeeper.getStore { storeFactory.create(city) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val state: Flow<DetailsStore.State> get() = store.stateFlow
+    override val state: Flow<CityDetailsStore.State> get() = store.stateFlow
 
     init {
         componentScope().launch {
             store.labels.collect { label ->
                 when (label) {
-                    DetailsStore.Label.ClickBack -> onBackClicked
+                    CityDetailsStore.Label.ClickBack -> onBackClicked
                 }
             }
         }
     }
 
-    override fun onClickBack() = store.accept(DetailsStore.Intent.ClickBack)
+    override fun onClickBack() = store.accept(CityDetailsStore.Intent.ClickBack)
 
-    override fun onClickIsFavorite() = store.accept(DetailsStore.Intent.ClickFavorite)
+    override fun onClickIsFavorite() = store.accept(CityDetailsStore.Intent.ClickFavorite)
 
     @AssistedFactory
     interface Factory {
@@ -46,6 +46,6 @@ class DefaultDetailComponent @AssistedInject constructor(
             @Assisted("city") city: City,
             @Assisted("componentContext") componentContext: ComponentContext,
             @Assisted("onBackClicked") onBackClicked: () -> Unit,
-        ): DefaultDetailComponent
+        ): CityDefaultsDetailsComponent
     }
 }

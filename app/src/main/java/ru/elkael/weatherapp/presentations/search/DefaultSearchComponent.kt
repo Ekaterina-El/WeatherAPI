@@ -18,7 +18,7 @@ class DefaultSearchComponent @AssistedInject constructor(
     @Assisted("componentContext") componentContext: ComponentContext,
     @Assisted("openReason") openReason: OpenReason,
     @Assisted("onBackClicked") onBackClicked: () -> Unit,
-    @Assisted("onAddFavorite") onAddFavorite: () -> Unit,
+    @Assisted("onAddedCityToFavorite") onAddedCityToFavorite: () -> Unit,
     @Assisted("onShowCityWeather") onShowCityWeather: (City) -> Unit
 ) : SearchComponent, ComponentContext by componentContext {
     private val store = instanceKeeper.getStore { storeFactory.create(openReason = openReason) }
@@ -30,7 +30,7 @@ class DefaultSearchComponent @AssistedInject constructor(
         componentScope().launch {
             store.labels.collect { label ->
                 when (label) {
-                    SearchStore.Label.CityAddedToFavorites -> onAddFavorite()
+                    SearchStore.Label.CityAddedToFavorites -> onAddedCityToFavorite()
                     SearchStore.Label.GoBack -> onBackClicked()
                     is SearchStore.Label.ShowCityWeather -> onShowCityWeather(label.city)
                 }
@@ -49,7 +49,7 @@ class DefaultSearchComponent @AssistedInject constructor(
             @Assisted("componentContext") componentContext: ComponentContext,
             @Assisted("openReason") openReason: OpenReason,
             @Assisted("onBackClicked") onBackClicked: () -> Unit,
-            @Assisted("onAddFavorite") onAddFavorite: () -> Unit,
+            @Assisted("onAddedCityToFavorite") onAddedCityToFavorite: () -> Unit,
             @Assisted("onShowCityWeather") onShowCityWeather: (City) -> Unit
         ): DefaultSearchComponent
     }

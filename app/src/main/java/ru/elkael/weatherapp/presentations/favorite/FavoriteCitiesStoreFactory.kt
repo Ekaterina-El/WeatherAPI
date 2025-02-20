@@ -9,19 +9,19 @@ import kotlinx.coroutines.launch
 import ru.elkael.weatherapp.domain.entities.City
 import ru.elkael.weatherapp.domain.useCase.GetFavoriteCitiesUseCase
 import ru.elkael.weatherapp.domain.useCase.GetWeatherUseCase
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Intent
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.Label
-import ru.elkael.weatherapp.presentations.favorite.FavoriteStore.State
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.Intent
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.Label
+import ru.elkael.weatherapp.presentations.favorite.FavoriteCitiesStore.State
 import javax.inject.Inject
 
-class FavoriteStoreFactory @Inject constructor(
+class FavoriteCitiesStoreFactory @Inject constructor(
     private val storeFactory: StoreFactory,
     private val getFavoriteCitiesUseCase: GetFavoriteCitiesUseCase,
     private val getGetWeatherUseCase: GetWeatherUseCase
 ) {
 
-    fun create(): FavoriteStore =
-        object : FavoriteStore, Store<Intent, State, Label> by storeFactory.create(
+    fun create(): FavoriteCitiesStore =
+        object : FavoriteCitiesStore, Store<Intent, State, Label> by storeFactory.create(
             name = "FavoriteStore",
             initialState = State(listOf()),
             bootstrapper = BootstrapperImpl(),

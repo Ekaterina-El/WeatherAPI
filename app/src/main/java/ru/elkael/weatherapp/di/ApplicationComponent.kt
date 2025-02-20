@@ -3,6 +3,7 @@ package ru.elkael.weatherapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ru.elkael.weatherapp.presentations.MainActivity
 
 @ApplicationScope
 @Component(
@@ -12,6 +13,7 @@ import dagger.Component
     ]
 )
 interface ApplicationComponent {
+    fun inject(mainActivity: MainActivity)
 
     @Component.Factory
     interface Factory {

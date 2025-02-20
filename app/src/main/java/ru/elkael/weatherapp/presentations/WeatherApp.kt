@@ -5,11 +5,11 @@ import ru.elkael.weatherapp.di.ApplicationComponent
 import ru.elkael.weatherapp.di.DaggerApplicationComponent
 
 class WeatherApp: Application() {
-    lateinit var component: ApplicationComponent
+    lateinit var applicationComponent: ApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerApplicationComponent.factory().create(this)
+        applicationComponent = DaggerApplicationComponent.factory().create(this)
     }
 }
