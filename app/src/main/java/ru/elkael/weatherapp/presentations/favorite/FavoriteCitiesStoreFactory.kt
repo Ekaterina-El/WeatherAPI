@@ -1,5 +1,6 @@
 package ru.elkael.weatherapp.presentations.favorite
 
+import android.util.Log
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
@@ -30,14 +31,14 @@ class FavoriteCitiesStoreFactory @Inject constructor(
         ) {}
 
     private sealed interface Action {
-        data class FavoriteCitiesLoaded(val cities: List<City>): Action
+        data class FavoriteCitiesLoaded(val cities: List<City>) : Action
     }
 
     private sealed interface Msg {
-        data class FavoriteCitiesLoaded(val cities: List<City>): Msg
-        data class WeatherLoaded(val cityId: Int, val tempC: Int, val conditionUrl: String): Msg
-        data class WeatherLoadingError(val cityId: Int): Msg
-        data class WeatherIsLoading(val cityId: Int): Msg
+        data class FavoriteCitiesLoaded(val cities: List<City>) : Msg
+        data class WeatherLoaded(val cityId: Int, val tempC: Int, val conditionUrl: String) : Msg
+        data class WeatherLoadingError(val cityId: Int) : Msg
+        data class WeatherIsLoading(val cityId: Int) : Msg
     }
 
     private inner class BootstrapperImpl : CoroutineBootstrapper<Action>() {
@@ -65,8 +66,8 @@ class FavoriteCitiesStoreFactory @Inject constructor(
                     val cities = action.cities
                     dispatch(Msg.FavoriteCitiesLoaded(cities = cities))
 
-                    scope.launch {
-                        cities.forEach { city ->
+                    cities.forEach { city ->
+                        scope.launch {
                             loadWeatherForCity(cityId = city.id)
                         }
                     }
@@ -75,14 +76,16 @@ class FavoriteCitiesStoreFactory @Inject constructor(
         }
 
         private suspend fun loadWeatherForCity(cityId: Int) {
+            dispatch(Msg.WeatherIsLoading(cityId))
             try {
-                dispatch(Msg.WeatherIsLoading(cityId))
                 getGetWeatherUseCase(cityId).also {
-                    dispatch(Msg.WeatherLoaded(
-                        cityId = cityId,
-                        tempC = it.tempC,
-                        conditionUrl = it.conditionUrl
-                    ))
+                    dispatch(
+                        Msg.WeatherLoaded(
+                            cityId = cityId,
+                            tempC = it.tempC,
+                            conditionUrl = it.conditionUrl
+                        )
+                    )
                 }
             } catch (e: Exception) {
                 dispatch(Msg.WeatherLoadingError(cityId))
@@ -96,10 +99,12 @@ class FavoriteCitiesStoreFactory @Inject constructor(
                 State.CityItem(city = it, weatherState = State.WeatherState.Initial)
             })
 
-            is Msg.WeatherIsLoading -> this.setWeatherStateForCity(
-                cityId = msg.cityId,
-                weatherState = State.WeatherState.Loading
-            )
+            is Msg.WeatherIsLoading -> {
+                this.setWeatherStateForCity(
+                    cityId = msg.cityId,
+                    weatherState = State.WeatherState.Loading
+                )
+            }
 
             is Msg.WeatherLoaded -> this.setWeatherStateForCity(
                 cityId = msg.cityId,

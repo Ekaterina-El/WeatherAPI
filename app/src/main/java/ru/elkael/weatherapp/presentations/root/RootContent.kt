@@ -3,7 +3,7 @@ package ru.elkael.weatherapp.presentations.root
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import ru.elkael.weatherapp.presentations.details.CityDetailsContent
-import ru.elkael.weatherapp.presentations.favorite.FavoriteCityContent
+import ru.elkael.weatherapp.presentations.favorite.content.FavoriteCityContent
 import ru.elkael.weatherapp.presentations.search.SearchContent
 import ru.elkael.weatherapp.presentations.ui.theme.WeatherAppTheme
 
